@@ -107,8 +107,9 @@ plus sessions. Phase 6 is polish (animation, sound, zoom, responsive layout).
 
 ## 9. Potential technical problems
 
-- **Table resolution**: 100 m steps, so interpolation error was checked against a quadratic fit
-  (≪ 0.05 mil in the 100–800 m band).
+- **Table resolution**: 100 m steps. A leave-one-out check interpolated each row with its
+  neighbours removed (200 m gaps). Worst error was 0.011 mil (5.56) and 0.006 mil (7.62), well
+  below one 0.1 mil turret click.
 - **Table zeros differ** between loads (200 m for both chosen loads, though the M118LR label says
   600 m). The game re-zeros both rifles to a common, configurable 100 m.
 - **Head/tail wind** does not change drop in this model (the tables have no data for it), so only the
