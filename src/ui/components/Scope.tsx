@@ -88,18 +88,16 @@ export function Scope({ scenario, aim, fov, phase, result, shotCount, onAim, onW
                   x2={result.impactMil.x}
                   y2={-result.impactMil.y}
                   stroke="#fbbf24"
-                  strokeDasharray="3 3"
-                  className="nss"
-                  strokeWidth={1}
-                  style={{ vectorEffect: "non-scaling-stroke" }}
+                  strokeDasharray={`${markR} ${markR}`}
+                  strokeWidth={markR * 0.25}
                 />
-                <g stroke="#22c55e" strokeWidth={1.5} style={{ vectorEffect: "non-scaling-stroke" }}>
-                  <line x1={scenario.target.centerMil.x - markR * 1.6} y1={-scenario.target.centerMil.y} x2={scenario.target.centerMil.x + markR * 1.6} y2={-scenario.target.centerMil.y} style={{ vectorEffect: "non-scaling-stroke" }} />
-                  <line x1={scenario.target.centerMil.x} y1={-scenario.target.centerMil.y - markR * 1.6} x2={scenario.target.centerMil.x} y2={-scenario.target.centerMil.y + markR * 1.6} style={{ vectorEffect: "non-scaling-stroke" }} />
+                <g stroke="#22c55e" strokeWidth={markR * 0.35}>
+                  <line x1={scenario.target.centerMil.x - markR * 1.6} y1={-scenario.target.centerMil.y} x2={scenario.target.centerMil.x + markR * 1.6} y2={-scenario.target.centerMil.y} />
+                  <line x1={scenario.target.centerMil.x} y1={-scenario.target.centerMil.y - markR * 1.6} x2={scenario.target.centerMil.x} y2={-scenario.target.centerMil.y + markR * 1.6} />
                 </g>
                 <circle className="impact-puff" cx={result.impactMil.x} cy={-result.impactMil.y} r={markR * 2.5} fill={result.hit ? "#fde68a" : "#d6c7a1"} />
-                <circle className="impact-ring" cx={result.impactMil.x} cy={-result.impactMil.y} r={markR * 1.5} fill="none" stroke={result.hit ? "#f59e0b" : "#ef4444"} strokeWidth={1.5} style={{ vectorEffect: "non-scaling-stroke" }} />
-                <circle cx={result.impactMil.x} cy={-result.impactMil.y} r={markR * 0.7} fill={result.hit ? "#f59e0b" : "#ef4444"} stroke="#000" strokeWidth={0.8} style={{ vectorEffect: "non-scaling-stroke" }} />
+                <circle className="impact-ring" cx={result.impactMil.x} cy={-result.impactMil.y} r={markR * 1.5} fill="none" stroke={result.hit ? "#f59e0b" : "#ef4444"} strokeWidth={markR * 0.3} />
+                <circle cx={result.impactMil.x} cy={-result.impactMil.y} r={markR * 0.7} fill={result.hit ? "#f59e0b" : "#ef4444"} stroke="#000" strokeWidth={markR * 0.15} />
               </g>
             )}
           </svg>

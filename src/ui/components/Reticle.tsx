@@ -6,6 +6,9 @@ import { memo } from "react";
  */
 function ReticleImpl({ fov }: { fov: number }) {
   const edge = fov / 2 + 1;
+  // Stroke widths in mil, derived from the field of view so lines stay ~1.5 px at every zoom.
+  const line = fov / 520;
+  const dotR = Math.max(0.06, fov / 320);
   const ticks: React.ReactNode[] = [];
   for (let i = -10; i <= 10; i++) {
     if (i === 0) continue;
@@ -22,7 +25,7 @@ function ReticleImpl({ fov }: { fov: number }) {
   const dots: React.ReactNode[] = [];
   for (let row = 2; row <= 8; row += 2) {
     const n = row / 2 + 1;
-    for (let j = -n; j <= n; j++) if (j !== 0) dots.push(<circle key={`${row}:${j}`} cx={j} cy={row} r={0.07} />);
+    for (let j = -n; j <= n; j++) if (j !== 0) dots.push(<circle key={`${row}:${j}`} cx={j} cy={row} r={dotR} />);
   }
   const labels = [2, 4, 6, 8, 10].flatMap((v) => [
     <text key={`lr${v}`} x={v} y={-0.75} textAnchor="middle">{v}</text>,
@@ -47,20 +50,18 @@ function ReticleImpl({ fov }: { fov: number }) {
   return (
     <g>
       {/* light halo underneath keeps the reticle legible on dark foliage */}
-      <g className="nss" stroke="rgba(255,255,255,0.35)" strokeWidth={3}>
+      <g stroke="rgba(255,255,255,0.4)" strokeWidth={line * 3}>
         {lines}
       </g>
-      <g stroke="#0b0b0b" fill="#0b0b0b">
-        <g className="nss" strokeWidth={1.1}>
-          {lines}
-        </g>
-        {dots}
-        {posts(0.35)}
+      <g stroke="#0b0b0b" strokeWidth={line}>
+        {lines}
       </g>
-      <g fill="#0b0b0b" fontSize={0.5} fontFamily="ui-monospace, monospace" style={{ userSelect: "none" }}>
+      <g fill="#0b0b0b">{dots}</g>
+      <g stroke="#0b0b0b">{posts(0.35)}</g>
+      <g fill="#0b0b0b" fontSize={fov / 55} fontFamily="ui-monospace, monospace" style={{ userSelect: "none" }}>
         {labels}
       </g>
-      <circle cx={0} cy={0} r={0.06} fill="#ef4444" />
+      <circle cx={0} cy={0} r={Math.max(0.05, fov / 400)} fill="#ef4444" />
     </g>
   );
 }

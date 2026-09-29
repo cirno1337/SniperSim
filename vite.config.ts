@@ -12,5 +12,5 @@ export default defineConfig({
   plugins: [react(), tailwindcss()],
   resolve: { alias: { '@sniper': sniperSrc } },
   server: { fs: { allow: ['.', sniperSrc] } },
-  test: { include: ['src/**/*.test.ts'] },
+  test: { include: ['src/**/*.test.{ts,tsx}'] },
 })

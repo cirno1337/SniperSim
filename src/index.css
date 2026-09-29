@@ -23,10 +23,6 @@ select:focus-visible,
   outline-offset: 2px;
 }
 
-.nss line {
-  vector-effect: non-scaling-stroke;
-}
-
 .num {
   font-variant-numeric: tabular-nums;
   @apply font-mono;

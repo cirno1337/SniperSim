@@ -222,22 +222,24 @@ function SceneImpl({ scenario: s }: { scenario: Scenario }) {
   // scattered tufts / rocks, uniform in screen space (sample 1/d)
   const nTufts = s.environment === "desert" ? 140 : 260;
   for (let i = 0; i < nTufts; i++) {
-    const d = 1 / rng.range(1 / 2400, 1 / 22);
+    const d = 1 / rng.range(1 / 2400, 1 / 70);
     const x = rng.range(-70, 70);
     if (!clearOfTarget(x, d)) continue;
     const m = k(d);
     const g = yAt(d);
     if (rng.next() < (s.environment === "desert" ? 0.55 : 0.2)) {
-      const w = rng.range(0.2, 0.8);
+      const w = rng.range(0.08, 0.3);
       objs.push({ d, node: <ellipse key={`r${i}`} cx={x} cy={g - w * 0.2 * m} rx={w * m} ry={w * 0.45 * m} fill={haze(p, p.rock, d)} /> });
     } else {
-      const h = rng.range(0.25, 0.6);
-      const w = h * 0.8;
+      // grass tuft: a few thin blades
+      const h = rng.range(0.15, 0.4);
       const c = haze(p, rng.pick(p.foliage), d);
-      objs.push({
-        d,
-        node: <polygon key={`t${i}`} points={`${x - w * m},${g} ${x - w * 0.3 * m},${g - h * m} ${x},${g - h * 0.5 * m} ${x + w * 0.4 * m},${g - h * 1.1 * m} ${x + w * m},${g}`} fill={c} />,
+      const blades = [-0.12, -0.05, 0.03, 0.1].map((o) => {
+        const lean = rng.range(-0.08, 0.08);
+        const bh = h * rng.range(0.6, 1);
+        return `M${x + (o - 0.03) * m},${g} L${x + (o + lean) * m},${g - bh * m} L${x + (o + 0.03) * m},${g} Z`;
       });
+      objs.push({ d, node: <path key={`t${i}`} d={blades.join(" ")} fill={c} /> });
     }
   }
 
@@ -249,9 +251,9 @@ function SceneImpl({ scenario: s }: { scenario: Scenario }) {
       objs.push(tree(p, rng, line + rng.range(-25, 60), x, rng.next() < 0.6, `f${x}`));
     }
     for (let i = 0; i < 10; i++) {
-      const d = rng.range(60, R * 0.9);
+      const d = rng.range(Math.max(150, R * 0.4), R * 0.9);
       const x = rng.range(-60, 60);
-      if (Math.abs(x - t.centerMil.x) > 9 && Math.abs(x - s.flagXMil) > 3) objs.push(tree(p, rng, d, x, rng.next() < 0.5, `n${i}`));
+      if (Math.abs(x - t.centerMil.x) > 14 && Math.abs(x - s.flagXMil) > 4) objs.push(tree(p, rng, d, x, rng.next() < 0.5, `n${i}`));
     }
   } else if (s.environment === "field") {
     for (let i = 0; i < 9; i++) {
